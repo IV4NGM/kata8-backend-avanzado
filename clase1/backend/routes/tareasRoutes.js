@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const { getTareas, createTareas, updateTareas, deleteTareas } = require('../controllers/tareasControllers')
+const { protect } = require('../middleware/authMiddleware')
 
-router.get('/', getTareas)
-router.post('/', createTareas)
+router.get('/', protect, getTareas)
+router.post('/', protect, createTareas)
 
 // La siguiente línea equivale a las dos anteriores:
-// router.route('/').get(getTareas).post(createTareas)
+// router.route('/').get(protect, getTareas).post(protect, createTareas)
 
-router.put('/:id', updateTareas)
-router.delete('/:id', deleteTareas)
-// router.route('/:id').put(updateTareas).delete(deleteTareas)
+router.put('/:id', protect, updateTareas)
+router.delete('/:id', protect, deleteTareas)
+// router.route('/:id').put(protect, updateTareas).delete(protect, deleteTareas)
 
 module.exports = router
